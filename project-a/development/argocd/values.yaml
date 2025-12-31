@@ -1,25 +1,12 @@
-## ArgoCD server
-server:
-  service:
-    type: ClusterIP
-
-## ApplicationSet controller (필수)
-applicationSet:
-  enabled: true
-
-## Repo-server (GitHub App 쓰는 핵심 컴포넌트)
-repoServer:
-  replicas: 1
-
-## Controller
-controller:
-  replicas: 1
-
-## Dex / OAuth 아직 안 씀
+# dex-server: 추후 Github SSO 연동 시 사용
 dex:
   enabled: false
 
-## Admin 계정 (로컬 테스트용)
 configs:
   params:
     server.insecure: true
+  repositories:
+    gitops-helm-charts:
+      url: https://github.com/dustjs159/gitops-helm-charts
+      type: git
+      name: gitops-helm-charts
