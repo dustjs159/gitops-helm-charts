@@ -25,6 +25,9 @@ ArgoCD–GitHub App 연동은 개인 PAT 대신 GitHub App의 단기 토큰(자�
 
 ### Create K8s secret
 ```zsh
-kubectl apply -f argocd-repo-creds.yaml
-kubectl apply -f argocd-repositories.yaml
+kubectl create secret generic argocd-repo-creds \
+  -n argocd \
+  --from-literal=appID=**** \
+  --from-literal=installationID=**** \
+  --from-file=privateKey=****
 ```
