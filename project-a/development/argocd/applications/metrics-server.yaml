@@ -14,7 +14,7 @@ spec:
       helm:
         releaseName: metrics-server
         valueFiles:
-          - $values/metrics-server/values.yaml
+          - $values/project-a/development/metrics-server/values.yaml
 
     # Values Git repo
     - repoURL: https://github.com/dustjs159/gitops-helm-charts

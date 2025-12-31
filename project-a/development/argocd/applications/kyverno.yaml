@@ -13,7 +13,8 @@ spec:
       helm:
         releaseName: kyverno
         valueFiles:
-          - $values/kyverno/values.yaml
+          - $values/project-a/development/kyverno/values.yaml
+    
     - repoURL: https://github.com/dustjs159/gitops-helm-charts
       targetRevision: master
       ref: values
