@@ -5,13 +5,16 @@ metadata:
   namespace: argocd
 spec:
   project: default
+
   source:
     repoURL: https://github.com/dustjs159/gitops-helm-charts
     targetRevision: master
-    path: project-a/development/argocd/applications
+    path: example/development/system/argocd
+
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
+
   syncPolicy:
     automated:
       prune: true
