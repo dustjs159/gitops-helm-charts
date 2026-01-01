@@ -5,8 +5,3 @@ dex:
 configs:
   params:
     server.insecure: true
-  repositories:
-    gitops-helm-charts:
-      url: https://github.com/dustjs159/gitops-helm-charts
-      type: git
-      name: gitops-helm-charts

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: github-creds
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/secret-type: repo-creds
+stringData:
+  url: https://github.com/dustjs159/gitops-helm-charts
+  type: git
+  githubAppID: "****************"  # Github App ID         
+  githubAppInstallationID: "****************"  # Github App Installation ID
+  githubAppPrivateKey: | # Github App Private Key
+    -----BEGIN RSA PRIVATE KEY-----
+    *****************
+    -----END RSA PRIVATE KEY-----
