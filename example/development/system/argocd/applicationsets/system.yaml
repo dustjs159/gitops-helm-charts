@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: system-applicationsets
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - name: metrics-server
+            namespace: kube-system
+            chartRepo: https://kubernetes-sigs.github.io/metrics-server/
+            chartName: metrics-server
+            chartVersion: 3.13.0
+            valuesPath: system/metrics-server/values.yaml
+
+  template:
+    metadata:
+      name: '{{name}}'
+    spec:
+      project: default
+
+      sources:
+        # Helm chart
+        - repoURL: '{{chartRepo}}'
+          chart: '{{chartName}}'
+          targetRevision: '{{chartVersion}}'
+          helm:
+            releaseName: '{{name}}'
+            valueFiles:
+              - $values/{{valuesPath}}
+
+        # Values Git repo
+        - repoURL: https://github.com/dustjs159/gitops-helm-charts
+          targetRevision: main
+          ref: values
+
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{namespace}}'
+
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
