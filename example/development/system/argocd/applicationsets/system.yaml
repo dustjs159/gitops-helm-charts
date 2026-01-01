@@ -13,6 +13,12 @@ spec:
             chartName: metrics-server
             chartVersion: 3.13.0
             valuesPath: example/development/system/metrics-server/values.yaml
+          - name: kyverno
+            namespace: kyverno
+            chartRepo: https://kyverno.github.io/kyverno/
+            chartName: kyverno
+            chartVersion: 3.6.1
+            valuesPath: example/development/system/kyverno/values.yaml
 
   template:
     metadata:
