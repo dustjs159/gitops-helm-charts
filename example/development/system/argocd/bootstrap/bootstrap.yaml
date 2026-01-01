@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: https://github.com/dustjs159/gitops-helm-charts
     targetRevision: master
-    path: example/development/system/argocd
+    path: example/development/system/argocd/applicationsets
 
   destination:
     server: https://kubernetes.default.svc
