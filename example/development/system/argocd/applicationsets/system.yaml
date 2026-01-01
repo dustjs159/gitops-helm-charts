@@ -12,7 +12,7 @@ spec:
             chartRepo: https://kubernetes-sigs.github.io/metrics-server/
             chartName: metrics-server
             chartVersion: 3.13.0
-            valuesPath: system/metrics-server/values.yaml
+            valuesPath: example/development/system/metrics-server/values.yaml
 
   template:
     metadata:
