@@ -32,7 +32,7 @@ spec:
 
         # Values Git repo
         - repoURL: https://github.com/dustjs159/gitops-helm-charts
-          targetRevision: main
+          targetRevision: master
           ref: values
 
       destination:
