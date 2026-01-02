@@ -1,21 +1,21 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: workloads
-  namespace: argocd
-spec:
-  project: default
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: workloads
+#   namespace: argocd
+# spec:
+#   project: default
 
-  source:
-    repoURL: https://github.com/dustjs159/gitops-helm-charts
-    targetRevision: master
-    path: example/development/workloads/applicationsets
+#   source:
+#     repoURL: https://github.com/dustjs159/gitops-helm-charts
+#     targetRevision: master
+#     path: example/development/workloads/applicationsets
 
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: argocd
+#   destination:
+#     server: https://kubernetes.default.svc
+#     namespace: argocd
 
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
