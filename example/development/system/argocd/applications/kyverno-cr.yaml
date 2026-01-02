@@ -1,25 +1,25 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: kyverno-cr
-  namespace: argocd
-spec:
-  project: default
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: kyverno-cr
+#   namespace: argocd
+# spec:
+#   project: default
 
-  source:
-    repoURL: https://github.com/dustjs159/gitops-helm-charts
-    targetRevision: master
-    path: example/development/system/kyverno/policies
-    directory:
-      recurse: true
+#   source:
+#     repoURL: https://github.com/dustjs159/gitops-helm-charts
+#     targetRevision: master
+#     path: example/development/system/kyverno/policies
+#     directory:
+#       recurse: true
 
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: kyverno
+#   destination:
+#     server: https://kubernetes.default.svc
+#     namespace: kyverno
 
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - ServerSideApply=true
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
+#     syncOptions:
+#       - ServerSideApply=true
