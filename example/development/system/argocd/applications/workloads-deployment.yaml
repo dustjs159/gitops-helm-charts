@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: workloads
+  name: workloads-deployment
   namespace: argocd
 spec:
   project: default
@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: https://github.com/dustjs159/gitops-helm-charts
     targetRevision: master
-    path: example/development/workloads/applicationsets
+    path: example/development/workloads/deployment/
 
   destination:
     server: https://kubernetes.default.svc

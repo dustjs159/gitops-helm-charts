@@ -1,15 +1,15 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: workloads
+  name: deployment-applicationset
   namespace: argocd
 spec:
   generators:
     - list:
         elements:
-          - name: alpine
+          - name: nginx
             namespace: nginx
-            valuesFile: alpine.yaml
+            valuesFile: nginx.yaml
 
   template:
     metadata:
@@ -19,11 +19,11 @@ spec:
       sources:
         - repoURL: https://github.com/dustjs159/gitops-helm-charts
           targetRevision: master
-          path: templates/cronjob
+          path: templates/deployment
           helm:
             releaseName: '{{name}}'
             valueFiles:
-              - $values/example/development/workloads/values/{{valuesFile}}
+              - $values/example/development/workloads/deployment/values/{{valuesFile}}
 
         - repoURL: https://github.com/dustjs159/gitops-helm-charts
           targetRevision: master

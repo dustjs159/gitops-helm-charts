@@ -1,0 +1,42 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: cronjob-applicationset
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - name: alpine
+            namespace: nginx
+            valuesFile: alpine.yaml
+
+  template:
+    metadata:
+      name: '{{name}}'
+    spec:
+      project: default
+      sources:
+        - repoURL: https://github.com/dustjs159/gitops-helm-charts
+          targetRevision: master
+          path: templates/cronjob
+          helm:
+            releaseName: '{{name}}'
+            valueFiles:
+              - $values/example/development/workloads/cronjob/values/{{valuesFile}}
+
+        - repoURL: https://github.com/dustjs159/gitops-helm-charts
+          targetRevision: master
+          ref: values
+
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{namespace}}'
+
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
