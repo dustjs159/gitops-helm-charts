@@ -1,5 +1,4 @@
 crds:
   install: true
-
-  reportsServer:
-    enabled: true
+  migration:
+    enabled: false
