@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: workloads
+  name: workloads-cronjob
   namespace: argocd
 spec:
   project: default
