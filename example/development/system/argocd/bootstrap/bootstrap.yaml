@@ -17,5 +17,5 @@ spec:
 
   syncPolicy:
     automated:
-      prune: false  # bootstrap은 git에서 삭제되더라도 클러스터 내에서 삭제되지 않도록 설정
+      prune: true
       selfHeal: true
