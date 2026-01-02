@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: https://github.com/dustjs159/gitops-helm-charts
     targetRevision: master
-    path: example/development/system/argocd/applicationsets
+    path: example/development/system/argocd/applications
 
   destination:
     server: https://kubernetes.default.svc
@@ -17,5 +17,5 @@ spec:
 
   syncPolicy:
     automated:
-      prune: true
+      prune: false  # bootstrap은 git에서 삭제되더라도 클러스터 내에서 삭제되지 않도록 설정
       selfHeal: true
