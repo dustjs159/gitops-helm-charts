@@ -1,0 +1,42 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: workloads
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - name: nginx
+            namespace: nginx
+            valuesFile: nginx.yaml
+
+  template:
+    metadata:
+      name: '{{name}}'
+    spec:
+      project: default
+      sources:
+        - repoURL: https://github.com/dustjs159/gitops-helm-charts
+          targetRevision: master
+          path: templates/workloads-deployment
+          helm:
+            releaseName: '{{name}}'
+            valueFiles:
+              - $values/example/development/workloads/values/{{valuesFile}}
+
+        - repoURL: https://github.com/dustjs159/gitops-helm-charts
+          targetRevision: master
+          ref: values
+
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{namespace}}'
+
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
