@@ -1,0 +1,5 @@
+crds:
+  install: true
+
+  reportsServer:
+    enabled: true
