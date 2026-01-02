@@ -1,0 +1,39 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: disallow-latest-tag
+  annotations:
+    policies.kyverno.io/title: Disallow Latest Tag
+    policies.kyverno.io/severity: medium
+    policies.kyverno.io/subject: Pod
+    policies.kyverno.io/description: >-
+      컨테이너 이미지는 latest 태그를 사용할 수 없으며, 
+      명시적인 버전 태그를 지정해야 합니다.
+spec:
+  validationFailureAction: Enforce
+  background: true
+  rules:
+  - name: require-image-tag
+    match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+    validate:
+      message: "컨테이너 이미지는 :latest 태그를 사용할 수 없습니다. 명시적인 버전을 지정하세요."
+      foreach:
+      - list: "request.object.spec.containers"
+        pattern:
+          image: "!*:latest"
+  - name: require-tag-specified
+    match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+    validate:
+      message: "컨테이너 이미지는 반드시 태그를 포함해야 합니다."
+      foreach:
+      - list: "request.object.spec.containers"
+        pattern:
+          image: "*:*"

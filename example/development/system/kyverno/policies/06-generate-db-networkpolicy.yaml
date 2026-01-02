@@ -1,0 +1,60 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: generate-db-network-policy
+  annotations:
+    policies.kyverno.io/title: Generate DB NetworkPolicy
+    policies.kyverno.io/severity: medium
+    policies.kyverno.io/subject: Deployment, NetworkPolicy
+    policies.kyverno.io/description: >-
+      db-access=true 레이블을 가진 Deployment에 대해 
+      DB 접근을 허용하는 NetworkPolicy를 자동 생성합니다.
+spec:
+  generateExisting: true
+  rules:
+  - name: generate-db-access-policy
+    match:
+      any:
+      - resources:
+          kinds:
+          - Deployment
+          selector:
+            matchLabels:
+              db-access: "true"
+    generate:
+      apiVersion: networking.k8s.io/v1
+      kind: NetworkPolicy
+      name: "{{request.object.metadata.name}}-db-access"
+      namespace: "{{request.namespace}}"
+      synchronize: true
+      data:
+        metadata:
+          labels:
+            generated-by: kyverno
+            app: "{{request.object.metadata.name}}"
+        spec:
+          podSelector:
+            matchLabels:
+              app: "{{request.object.spec.template.metadata.labels.app}}"
+          policyTypes:
+          - Egress
+          egress:
+          # DNS 허용
+          - to:
+            - namespaceSelector:
+                matchLabels:
+                  kubernetes.io/metadata.name: kube-system
+            ports:
+            - protocol: UDP
+              port: 53
+          # DB 접근 허용 (CIDR 기반)
+          - to:
+            - ipBlock:
+                cidr: 10.0.0.0/8  # VPC CIDR에 맞게 수정
+            ports:
+            - protocol: TCP
+              port: 5432  # PostgreSQL
+            - protocol: TCP
+              port: 27017  # MongoDB/DocumentDB
+            - protocol: TCP
+              port: 3306  # MySQL/RDS

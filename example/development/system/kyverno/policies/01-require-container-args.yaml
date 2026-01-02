@@ -1,0 +1,30 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-container-args
+  annotations:
+    policies.kyverno.io/title: Require Container Args
+    policies.kyverno.io/severity: medium
+    policies.kyverno.io/subject: Pod
+    policies.kyverno.io/description: >-
+      컨테이너는 명시적인 args를 가져야 합니다.
+spec:
+  validationFailureAction: Enforce
+  background: true
+  rules:
+  - name: check-container-args
+    match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+    validate:
+      message: "모든 컨테이너는 args를 명시해야 합니다."
+      foreach:
+      - list: "request.object.spec.containers"
+        deny:
+          conditions:
+            any:
+            - key: "{{ element.args || '' }}"
+              operator: Equals
+              value: ""

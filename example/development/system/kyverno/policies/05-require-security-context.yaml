@@ -1,0 +1,45 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-security-context
+  annotations:
+    policies.kyverno.io/title: Require Security Context
+    policies.kyverno.io/severity: high
+    policies.kyverno.io/subject: Pod
+    policies.kyverno.io/description: >-
+      모든 컨테이너는 보안 컨텍스트를 설정해야 합니다.
+      runAsNonRoot, allowPrivilegeEscalation=false, capabilities drop ALL 필수.
+spec:
+  validationFailureAction: Enforce
+  background: true
+  rules:
+  - name: check-pod-security-context
+    match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+    validate:
+      message: "Pod는 securityContext.runAsNonRoot=true를 설정해야 합니다."
+      pattern:
+        spec:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: ">0"
+  
+  - name: check-container-security-context
+    match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+    validate:
+      message: "컨테이너는 securityContext를 설정해야 합니다 (allowPrivilegeEscalation=false, capabilities drop ALL)."
+      foreach:
+      - list: "request.object.spec.containers"
+        pattern:
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
