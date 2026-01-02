@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: metrics-server
+  namespace: argocd
+spec:
+  project: default
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
+
+  sources:
+    # Helm
+    - repoURL: https://kubernetes-sigs.github.io/metrics-server/
+      chart: metrics-server
+      targetRevision: 3.13.0
+      helm:
+        valueFiles:
+          - $values/example/development/system/metrics-server/values.yaml
+    # Values Git repo
+    - repoURL: https://github.com/dustjs159/gitops-helm-charts
+      targetRevision: master
+      ref: values
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
