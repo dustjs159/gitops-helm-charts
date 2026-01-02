@@ -2,5 +2,3 @@ crds:
   install: true
   migration:
     enabled: false
-
-sanityChecks: false
