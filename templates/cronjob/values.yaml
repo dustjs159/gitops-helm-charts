@@ -1,0 +1,33 @@
+schedule: ""
+timeZone: ""
+
+suspend: false
+concurrencyPolicy: Forbid
+successfulJobsHistoryLimit: 3
+failedJobsHistoryLimit: 1
+backoffLimit: 1
+restartPolicy: Never
+
+image:
+  repository: ""
+  tag: ""
+  pullPolicy: IfNotPresent
+
+command: []
+args:
+  - echo
+  - "hello from cronjob"
+
+env: []
+envFrom: []
+
+resources: {}
+
+serviceAccount:
+  create: false
+  name: ""
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+podSecurityContext: {}

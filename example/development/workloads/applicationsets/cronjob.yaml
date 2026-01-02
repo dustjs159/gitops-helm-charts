@@ -7,9 +7,9 @@ spec:
   generators:
     - list:
         elements:
-          - name: nginx
+          - name: alpine
             namespace: nginx
-            valuesFile: nginx.yaml
+            valuesFile: alpine.yaml
 
   template:
     metadata:
@@ -19,7 +19,7 @@ spec:
       sources:
         - repoURL: https://github.com/dustjs159/gitops-helm-charts
           targetRevision: master
-          path: templates/workloads-deployment
+          path: templates/cronjob
           helm:
             releaseName: '{{name}}'
             valueFiles:

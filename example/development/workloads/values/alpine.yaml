@@ -1,0 +1,11 @@
+schedule: "*/5 * * * *"
+
+image:
+  repository: alpine
+  tag: "3.19"
+
+args:
+  - sh
+  - -c
+  - |
+    echo "run at $(date)"
