@@ -20,9 +20,7 @@ resources:
     cpu: 300m
     memory: 256Mi
 
-args:
-  - "-g"
-  - "daemon off;"
+args: []
 
 autoscaling:
   enabled: false
